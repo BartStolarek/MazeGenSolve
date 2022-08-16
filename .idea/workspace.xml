@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="50c29773-720a-4ecb-9081-c7ec4713e0d5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/COSC350a2/src/bstolare/bstolare3.py" beforeDir="false" afterPath="$PROJECT_DIR$/COSC350a2/src/bstolare/bstolare3.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -214,7 +213,7 @@
       <updated>1660554517319</updated>
       <workItem from="1660554519335" duration="14868000" />
       <workItem from="1660604385990" duration="8133000" />
-      <workItem from="1660638669941" duration="10390000" />
+      <workItem from="1660638669941" duration="13924000" />
     </task>
     <servers />
   </component>
@@ -257,7 +256,7 @@
     <SUITE FILE_PATH="coverage/COSC350a2v2$PySimpleGUI_Grid_Boundries.coverage" NAME="PySimpleGUI-Grid-Boundries Coverage Results" MODIFIED="1660560568573" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/COSC350a2/src/bstolare/maze/Medium-Mazes-main" />
     <SUITE FILE_PATH="coverage/COSC350a2v2$5_1mazeMap__1_.coverage" NAME="5.1mazeMap (1) Coverage Results" MODIFIED="1660560838656" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/COSC350a2/src/bstolare/maze/Medium-Mazes-main" />
     <SUITE FILE_PATH="coverage/COSC350a2v2$agent_environment.coverage" NAME="agent_environment Coverage Results" MODIFIED="1660559495946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/COSC350a2/src/bstolare/week2" />
-    <SUITE FILE_PATH="coverage/COSC350a2v2$bstolare3.coverage" NAME="bstolare3 Coverage Results" MODIFIED="1660650782169" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/COSC350a2/src/bstolare" />
+    <SUITE FILE_PATH="coverage/COSC350a2v2$bstolare3.coverage" NAME="bstolare3 Coverage Results" MODIFIED="1660654285975" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/COSC350a2/src/bstolare" />
     <SUITE FILE_PATH="coverage/COSC350a2v2$maze.coverage" NAME="maze Coverage Results" MODIFIED="1660561630429" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/COSC350a2/src/bstolare/maze" />
     <SUITE FILE_PATH="coverage/COSC350a2v2$pygame_maze_generator_with_solution.coverage" NAME="pygame maze generator with solution Coverage Results" MODIFIED="1660565892484" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/COSC350a2/src/bstolare/maze2" />
     <SUITE FILE_PATH="coverage/COSC350a2v2$5mazeExit__1_.coverage" NAME="5mazeExit (1) Coverage Results" MODIFIED="1660561313660" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/COSC350a2/src/bstolare/maze/Medium-Mazes-main" />

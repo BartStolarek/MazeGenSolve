@@ -72,6 +72,25 @@ class Vertice:
             "south": True,
             "east": True
         }
+    def get_vertice_code(self):
+        code = ""
+        if self.walls["north"]:
+            code += "n"
+        else:
+            code += "-"
+        if self.walls["east"]:
+            code += "e"
+        else:
+            code += "-"
+        if self.walls["south"]:
+            code += "s"
+        else:
+            code += "-"
+        if self.walls["west"]:
+            code += "w"
+        else:
+            code += "-"
+        return code
 
     def set_walls(self, code):
         if code[0] == "n":
@@ -248,9 +267,8 @@ class Inverse_Maze:
 
                 self.vertices[x][y].set_walls(code)
 
-        # Set Boundaries
-        self.vertices[0][0].set_walls("--s-")
-        self.vertices[x_length-1][y_length-1].set_walls("n---")
+        # Remove wicks from outer boundary
+
         for x in range(0, x_length):
             self.vertices[x][0].walls["west"] = False
             self.vertices[x][y_length-1].walls["east"] = False
@@ -258,6 +276,37 @@ class Inverse_Maze:
         for y in range(0, y_length):
             self.vertices[0][y].walls["north"] = False
             self.vertices[x_length-1][y].walls["south"] = False
+
+
+        # Top boundary vertices update
+        for y in range(0, y_length-1):
+            self.vertices[0][y].walls["east"]=self.maze.get_cell(0,y).get_walls()["north"]
+            self.vertices[0][y].walls["south"]=self.maze.get_cell(0,y).get_walls()["west"]
+
+        # Right boundary vertices update
+        print(y_length)
+        for x in range(0, x_length-1):
+            self.vertices[x][y_length-1].walls["west"] = self.maze.get_cell(0,y_length-2).get_walls()["north"]
+        # TODO:  i'm up to here, there's an issue with the right boundary printing all east walls for vertices
+        #   check around here. If you run it and look above in the maze the vertices are printed out.
+        #   Might need to check out the code that converts the vertices code in to a symbol, maybe rewrite that section
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -276,7 +325,7 @@ class Inverse_Maze:
                     self.vertices[x][y].walls["north"] = False
                     self.vertices[x][y].walls["west"] = False
                 row.append(self.vertices[x][y].type + "(" + str(self.vertices[x][y].x) + ", " + str(
-                    self.vertices[x][y].y) + ")")
+                    self.vertices[x][y].y) + "/" +self.vertices[x][y].get_vertice_code()+ ")")
             print(row)
 
 
