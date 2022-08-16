@@ -20,6 +20,7 @@ def get_unicode_symbol(unicode):
 
 class Cell:
     def __init__(self, x, y):
+        self.type = "C"
         self.walls = {"north": True, "east": True, "south": True, "west": True}
         self.x = x
         self.y = y
@@ -27,10 +28,41 @@ class Cell:
     def get_walls(self):
         return self.walls
 
+    def set_walls(self, code):
+
+        if code[0] == "n":
+            self.walls["north"] = True
+        elif code[0] == "-":
+            self.walls["north"] = False
+        else:
+            raise ValueError("Cell " + str(self.x) + ", " + str(self.y) + " north part of code is incorrect")
+
+        if code[1] == "e":
+            self.walls["east"] = True
+        elif code[1] == "-":
+            self.walls["east"] = False
+        else:
+            raise ValueError("Cell " + str(self.x) + ", " + str(self.y) + " east part of code is incorrect")
+
+        if code[2] == "s":
+            self.walls["south"] = True
+        elif code[2] == "-":
+            self.walls["south"] = False
+        else:
+            raise ValueError("Cell " + str(self.x) + ", " + str(self.y) + " south part of code is incorrect")
+
+        if code[3] == "w":
+            self.walls["west"] = True
+        elif code[3] == "-":
+            self.walls["west"] = False
+        else:
+            raise ValueError("Cell " + str(self.x) + ", " + str(self.y) + " west part of code is incorrect")
+
 
 class Vertice:
 
     def __init__(self, x, y):
+        self.type = "V"
         self.symbol = ""
         self.x = x
         self.y = y
@@ -40,6 +72,35 @@ class Vertice:
             "south": True,
             "east": True
         }
+
+    def set_walls(self, code):
+        if code[0] == "n":
+            self.walls["north"] = True
+        elif code[0] == "-":
+            self.walls["north"] = False
+        else:
+            raise ValueError("Cell " + str(self.x) + ", " + str(self.y) + " north part of code is incorrect")
+
+        if code[1] == "e":
+            self.walls["east"] = True
+        elif code[1] == "-":
+            self.walls["east"] = False
+        else:
+            raise ValueError("Cell " + str(self.x) + ", " + str(self.y) + " east part of code is incorrect")
+
+        if code[2] == "s":
+            self.walls["south"] = True
+        elif code[2] == "-":
+            self.walls["south"] = False
+        else:
+            raise ValueError("Cell " + str(self.x) + ", " + str(self.y) + " south part of code is incorrect")
+
+        if code[3] == "w":
+            self.walls["west"] = True
+        elif code[3] == "-":
+            self.walls["west"] = False
+        else:
+            raise ValueError("Cell " + str(self.x) + ", " + str(self.y) + " west part of code is incorrect")
 
     def get_symbol(self):
         vertice_code = ""
@@ -68,9 +129,12 @@ class Vertice:
 
 
 class Spacer:
-    def __init__(self, direction, active: bool):
+    def __init__(self, direction, active: bool, x, y):
+        self.type = "S"
         self.direction = direction
         self.active = active
+        self.x = x
+        self.y = y
         if direction == "ns":
             self.symbol = '│'
         else:
@@ -98,12 +162,6 @@ class Inverse_Maze:
                 row.append(Vertice(x, y))
             self.vertices.append(row)
 
-    def get_spacer(self, direction):
-        if direction == "ns":
-            return '│'
-        else:
-            return '─'
-
     def get_vertices(self):
         print("Getting inverse maze vertices")
         return self.vertices
@@ -122,11 +180,12 @@ class Inverse_Maze:
                 for y in range(0, self.columns - 1):
                     # add cells two spacers first
                     for i in range(0, self.x_spacer):
-                        y_spacer.append(Spacer("ns", False))
+                        y_spacer.append(Spacer("ns", False, x, y))
                     if x == 0:
-                        y_spacer.append(Spacer("ns", False))
+                        y_spacer.append(Spacer("ns", False, x, y))
                     else:
-                        y_spacer.append(Spacer("ns", True))
+
+                        y_spacer.append(Spacer("ns", True, x, y))
 
                 # Print spacers
                 self.grid.append(y_spacer)
@@ -137,9 +196,9 @@ class Inverse_Maze:
                 # Add cell's two spacers first
                 for i in range(0, self.x_spacer):
                     if y == 0:
-                        row.append(Spacer("we", False))
+                        row.append(Spacer("we", False, x, y))
                     else:
-                        row.append(Spacer("we", True))
+                        row.append(Spacer("we", True, x, y))
                 row.append(self.vertices[x][y])
 
             self.grid.append(row)
@@ -156,66 +215,77 @@ class Inverse_Maze:
 
             print(row)
 
-    def dep_print_grid(self):
-        print("Printing Inverse Maze")
-        print(self.get_vertice_symbol(0, 0))
+    def get_vertice_symbol(self, x, y):
+        return self.vertices[x][y].get_symbol()
 
-        # For every inverse row except the last
-        for x in range(0, self.rows - 1):
-            # Add additional spacer rows for each row
-            for j in range(0, self.y_spacer):
+    def map_cells_to_vertices(self):
+        x_length = len(self.vertices)-1
+        y_length = len(self.vertices[0])-1
+        # Set inner vertices
+        for x in range(1, x_length-1):
+            for y in range(1, y_length-1):
+                top_left_cell_walls = self.maze.get_cell(x-1, y-1).get_walls()
+                bottom_right_cell_walls = self.maze.get_cell(x, y).get_walls()
 
-                # Start with empty string
-                y_spacer = str(x) + ""
+                if top_left_cell_walls["south"]:
+                    w = "w"
+                else:
+                    w = '-'
+                if top_left_cell_walls["east"]:
+                    n = "n"
+                else:
+                    n = '-'
+                if bottom_right_cell_walls["north"]:
+                    e = "e"
+                else:
+                    e = '-'
+                if bottom_right_cell_walls["west"]:
+                    s = "s"
+                else:
+                    s = '-'
 
-                # Make the two spacer rows above each row, column by column
-                for y in range(0, self.columns - 1):
-                    # add cells two spacers first
-                    for i in range(0, self.x_spacer):
-                        y_spacer += " "
-                    if x == 0:
-                        y_spacer += " "
-                    else:
-                        y_spacer += self.get_spacer("ns")
+                code = n+e+s+w
 
-                # Print spacers
-                print(y_spacer)
-            row = str(x) + ""
+                self.vertices[x][y].set_walls(code)
 
-            # Make rows WE walls
-            for y in range(0, self.columns - 1):
-                # Add cell's two spacers first
-                for i in range(0, self.x_spacer):
-                    if y == 0:
-                        row += " "
-                    else:
-                        row += self.get_spacer("we")
-                row += self.get_vertice_symbol(x, y)
+        # Set Boundaries
+        self.vertices[0][0].set_walls("--s-")
+        self.vertices[x_length-1][y_length-1].set_walls("n---")
+        for x in range(0, x_length):
+            self.vertices[x][0].walls["west"] = False
+            self.vertices[x][y_length-1].walls["east"] = False
+
+        for y in range(0, y_length):
+            self.vertices[0][y].walls["north"] = False
+            self.vertices[x_length-1][y].walls["south"] = False
+
+
+
+
+
+
+
+
+
+
+    def print_vertice_x_y(self):
+        for x in range(0, len(self.vertices)):
+            row = []
+            for y in range(0, len(self.vertices[0])):
+                if x == 0 and y == 3:
+                    self.vertices[x][y].walls["north"] = False
+                    self.vertices[x][y].walls["west"] = False
+                row.append(self.vertices[x][y].type + "(" + str(self.vertices[x][y].x) + ", " + str(
+                    self.vertices[x][y].y) + ")")
             print(row)
 
-    def get_vertice_symbol(self, x, y):
 
-        vertice_walls = self.vertices[x][y].get_walls()
-        vertice_code = ""
-
-        if vertice_walls["north"]:
-            vertice_code += "n"
-        else:
-            vertice_code += "-"
-        if vertice_walls["east"]:
-            vertice_code += "e"
-        else:
-            vertice_code += "-"
-        if vertice_walls["south"]:
-            vertice_code += "s"
-        else:
-            vertice_code += "-"
-        if vertice_walls["west"]:
-            vertice_code += "w"
-        else:
-            vertice_code += "-"
-
-        return get_unicode_symbol(vertice_code)
+    def print_grid_x_y(self):
+        for x in range(0, len(self.grid)):
+            row = []
+            for y in range(0, len(self.grid[0])):
+                row.append(self.grid[x][y].type + "(" + str(self.grid[x][y].x) + ", " + str(self.grid[x][y].y) + ")")
+            print(row)
 
 
 class Maze:
@@ -224,7 +294,9 @@ class Maze:
         self.rows = rows
         self.columns = columns
         self.cells = []
-        self.vertices = []
+
+    def get_cell(self, x, y):
+        return self.cells[x][y]
 
     def get_x(self):
         return self.columns
@@ -232,26 +304,44 @@ class Maze:
     def get_y(self):
         return self.rows
 
-    def make_maze(self):
+    def make_maze(self, maze):
         print("Making the maze")
         self.cells = []
-        for i in range(0, self.rows):
+        for x in range(0, self.rows):
             column = []
-            for j in range(0, self.columns):
-                cell = Cell(j, i)
+            for y in range(0, self.columns):
+                cell = Cell(x, y)
+                cell.set_walls(maze[x][y])
                 column.append(cell)
             self.cells.append(column)
 
+    def print_cell_maze(self):
+
+        for x in range(0, self.rows):
+            row = ""
+            for y in range(0, self.columns):
+                row += str(self.cells[x][y].get_walls())
+            print(row)
+
 
 def main():
-    columns = 10
-    rows = 5
+    row0 = ["---w", "n-s-", "ne--", "n--w", "n-s-", "ne--", "n--w", "n-s-", "n-s-", "ne--"]
+    row1 = ["-e-w", "n-sw", "-es-", "--sw", "ne--", "--sw", "-e--", "ne-w", "n--w", "-es-"]
+    row2 = ["--sw", "ne--", "n--w", "nes-", "---w", "ne--", "--sw", "-es-", "-e-w", "ne-w"]
+    row3 = ["n--w", "--s-", "-es-", "n--w", "-e--", "--sw", "nes-", "n--w", "--s-", "-es-"]
+    row4 = ["--sw", "n-s-", "n-s-", "-es-", "--sw", "nes-", "n-sw", "--s-", "n-s-", "ne--"]
 
+    custom_maze = [row0, row1, row2, row3, row4]
     maze = Maze(5, 10)
-    maze.make_maze()
-    inverse_maze = Inverse_Maze(maze, 2)
+    maze.make_maze(custom_maze)
+    maze.print_cell_maze()
+
+    inverse_maze = Inverse_Maze(maze, 0)
+    inverse_maze.map_cells_to_vertices()
+
+    inverse_maze.print_vertice_x_y()
     inverse_maze.create_grid()
-    inverse_maze.print_grid2()
+    inverse_maze.print_grid()
 
 
 if __name__ == '__main__':
