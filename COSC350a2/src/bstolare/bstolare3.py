@@ -72,6 +72,7 @@ class Vertice:
             "south": True,
             "east": True
         }
+
     def get_vertice_code(self):
         code = ""
         if self.walls["north"]:
@@ -199,12 +200,13 @@ class Inverse_Maze:
                 for y in range(0, self.columns - 1):
                     # add cells two spacers first
                     for i in range(0, self.x_spacer):
+                        spacer_active = self.vertices[x][y].get_walls()["north"]
                         y_spacer.append(Spacer("ns", False, x, y))
                     if x == 0:
                         y_spacer.append(Spacer("ns", False, x, y))
                     else:
 
-                        y_spacer.append(Spacer("ns", True, x, y))
+                        y_spacer.append(Spacer("ns", spacer_active, x, y))
 
                 # Print spacers
                 self.grid.append(y_spacer)
@@ -217,7 +219,8 @@ class Inverse_Maze:
                     if y == 0:
                         row.append(Spacer("we", False, x, y))
                     else:
-                        row.append(Spacer("we", True, x, y))
+                        spacer_active= self.vertices[x][y].get_walls()["west"]
+                        row.append(Spacer("we", spacer_active, x, y))
                 row.append(self.vertices[x][y])
 
             self.grid.append(row)
@@ -238,12 +241,12 @@ class Inverse_Maze:
         return self.vertices[x][y].get_symbol()
 
     def map_cells_to_vertices(self):
-        x_length = len(self.vertices)-1
-        y_length = len(self.vertices[0])-1
+        x_length = len(self.vertices) - 1
+        y_length = len(self.vertices[0]) - 1
         # Set inner vertices
-        for x in range(1, x_length-1):
-            for y in range(1, y_length-1):
-                top_left_cell_walls = self.maze.get_cell(x-1, y-1).get_walls()
+        for x in range(1, x_length - 1):
+            for y in range(1, y_length - 1):
+                top_left_cell_walls = self.maze.get_cell(x - 1, y - 1).get_walls()
                 bottom_right_cell_walls = self.maze.get_cell(x, y).get_walls()
 
                 if top_left_cell_walls["south"]:
@@ -263,7 +266,7 @@ class Inverse_Maze:
                 else:
                     s = '-'
 
-                code = n+e+s+w
+                code = n + e + s + w
 
                 self.vertices[x][y].set_walls(code)
 
@@ -271,51 +274,34 @@ class Inverse_Maze:
 
         for x in range(0, x_length):
             self.vertices[x][0].walls["west"] = False
-            self.vertices[x][y_length-1].walls["east"] = False
+            self.vertices[x][y_length - 1].walls["east"] = False
 
         for y in range(0, y_length):
             self.vertices[0][y].walls["north"] = False
-            self.vertices[x_length-1][y].walls["south"] = False
-
+            self.vertices[x_length - 1][y].walls["south"] = False
 
         # Top boundary vertices update
-        for y in range(0, y_length-1):
-            self.vertices[0][y].walls["east"]=self.maze.get_cell(0,y).get_walls()["north"]
-            self.vertices[0][y].walls["south"]=self.maze.get_cell(0,y).get_walls()["west"]
+        for y in range(0, y_length - 1):
+            self.vertices[0][y].walls["east"] = self.maze.get_cell(0, y).get_walls()["north"]
+            self.vertices[0][y].walls["south"] = self.maze.get_cell(0, y).get_walls()["west"]
 
         # Right boundary vertices update
-        print(y_length)
-        for x in range(0, x_length-1):
-            self.vertices[x][y_length-1].walls["west"] = self.maze.get_cell(0,y_length-2).get_walls()["north"]
+        for x in range(0, x_length - 1):
+            self.vertices[x][y_length - 1].walls["west"] = self.maze.get_cell(x, y_length - 2).get_walls()["north"]
+            self.vertices[x][y_length - 1].walls["south"] = self.maze.get_cell(x, y_length - 2).get_walls()["east"]
         # TODO:  i'm up to here, there's an issue with the right boundary printing all east walls for vertices
         #   check around here. If you run it and look above in the maze the vertices are printed out.
         #   Might need to check out the code that converts the vertices code in to a symbol, maybe rewrite that section
 
+        # Bottom boundary vertices update
+        for y in range(y_length - 1, 0, -1):
+            self.vertices[x_length - 1][y].walls["north"] = self.maze.get_cell(x_length - 2, y - 1).get_walls()["east"]
+            self.vertices[x_length - 1][y].walls["west"] = self.maze.get_cell(x_length - 2, y - 1).get_walls()["south"]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        # Left boundary vertices update
+        for x in range(x_length - 1, 0, -1):
+            self.vertices[x][0].walls["north"] = self.maze.get_cell(x - 1, 0).get_walls()["west"]
+            self.vertices[x][0].walls["east"] = self.maze.get_cell(x - 1, 0).get_walls()["south"]
 
     def print_vertice_x_y(self):
         for x in range(0, len(self.vertices)):
@@ -325,9 +311,8 @@ class Inverse_Maze:
                     self.vertices[x][y].walls["north"] = False
                     self.vertices[x][y].walls["west"] = False
                 row.append(self.vertices[x][y].type + "(" + str(self.vertices[x][y].x) + ", " + str(
-                    self.vertices[x][y].y) + "/" +self.vertices[x][y].get_vertice_code()+ ")")
+                    self.vertices[x][y].y) + "/" + self.vertices[x][y].get_vertice_code() + ")")
             print(row)
-
 
     def print_grid_x_y(self):
         for x in range(0, len(self.grid)):
@@ -383,9 +368,18 @@ def main():
     custom_maze = [row0, row1, row2, row3, row4]
     maze = Maze(5, 10)
     maze.make_maze(custom_maze)
+    print("printing cell maze")
     maze.print_cell_maze()
 
-    inverse_maze = Inverse_Maze(maze, 0)
+    print("creating inverse maze")
+    inverse_maze = Inverse_Maze(maze, 1)
+    print("printing vertice inverse maze (prior to mapping)")
+    inverse_maze.print_vertice_x_y()
+
+    print("printing cell maze again")
+    inverse_maze.maze.print_cell_maze()
+
+    print("mapping cells to inverse vertex maze")
     inverse_maze.map_cells_to_vertices()
 
     inverse_maze.print_vertice_x_y()
