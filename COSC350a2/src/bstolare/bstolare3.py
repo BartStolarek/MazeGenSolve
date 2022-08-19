@@ -28,6 +28,28 @@ class Cell:
     def get_walls(self):
         return self.walls
 
+    def get_code(self):
+        code = ""
+        if self.walls["north"]:
+            code += "n"
+        else:
+            code += "-"
+        if self.walls["east"]:
+            code += "e"
+        else:
+            code += "-"
+        if self.walls["south"]:
+            code += "s"
+        else:
+            code += "-"
+        if self.walls["west"]:
+            code += "w"
+        else:
+            code += "-"
+
+        return code
+
+
     def set_walls(self, code):
 
         if code[0] == "n":
@@ -73,7 +95,7 @@ class Vertice:
             "east": True
         }
 
-    def get_vertice_code(self):
+    def get_code(self):
         code = ""
         if self.walls["north"]:
             code += "n"
@@ -99,28 +121,28 @@ class Vertice:
         elif code[0] == "-":
             self.walls["north"] = False
         else:
-            raise ValueError("Cell " + str(self.x) + ", " + str(self.y) + " north part of code is incorrect")
+            raise ValueError("Vertice " + str(self.x) + ", " + str(self.y) + " north part of code is incorrect")
 
         if code[1] == "e":
             self.walls["east"] = True
         elif code[1] == "-":
             self.walls["east"] = False
         else:
-            raise ValueError("Cell " + str(self.x) + ", " + str(self.y) + " east part of code is incorrect")
+            raise ValueError("Vertice " + str(self.x) + ", " + str(self.y) + " east part of code is incorrect")
 
         if code[2] == "s":
             self.walls["south"] = True
         elif code[2] == "-":
             self.walls["south"] = False
         else:
-            raise ValueError("Cell " + str(self.x) + ", " + str(self.y) + " south part of code is incorrect")
+            raise ValueError("Vertice " + str(self.x) + ", " + str(self.y) + " south part of code is incorrect")
 
         if code[3] == "w":
             self.walls["west"] = True
         elif code[3] == "-":
             self.walls["west"] = False
         else:
-            raise ValueError("Cell " + str(self.x) + ", " + str(self.y) + " west part of code is incorrect")
+            raise ValueError("Vertice " + str(self.x) + ", " + str(self.y) + " west part of code is incorrect")
 
     def get_symbol(self):
         vertice_code = ""
@@ -152,6 +174,12 @@ class Spacer:
     def __init__(self, direction, active: bool, x, y):
         self.type = "S"
         self.direction = direction
+        self.walls = {
+            "north": True,
+            "west": True,
+            "south": True,
+            "east": True
+        }
         self.active = active
         self.x = x
         self.y = y
@@ -182,9 +210,7 @@ class Inverse_Maze:
                 row.append(Vertice(x, y))
             self.vertices.append(row)
 
-    def get_vertices(self):
-        print("Getting inverse maze vertices")
-        return self.vertices
+
 
     def create_grid(self):
 
@@ -234,11 +260,9 @@ class Inverse_Maze:
             row = ""
             for y in range(0, columns):
                 row += self.grid[x][y].get_symbol()
-
             print(row)
 
-    def get_vertice_symbol(self, x, y):
-        return self.vertices[x][y].get_symbol()
+
 
     def map_cells_to_vertices(self):
         x_length = len(self.vertices) - 1
@@ -269,35 +293,82 @@ class Inverse_Maze:
                 code = n + e + s + w
 
                 self.vertices[x][y].set_walls(code)
+        x = 0
+        y = 0
+        # Set top rows inner vertices
+        for y in range(1,y_length-1):
+            bottom_left_cell_walls = self.maze.get_cell(0, y-1).get_walls()
+            bottom_right_cell_walls = self.maze.get_cell(0, y).get_walls()
+            code = "-"
+            if bottom_right_cell_walls["north"]:
+                code += "e"
+            else:
+                code += "-"
+            if bottom_right_cell_walls["west"]:
+                code += "s"
+            else:
+                code += "-"
+            if bottom_left_cell_walls["north"]:
+                code += "w"
+            else:
+                code += "-"
 
-        # Remove wicks from outer boundary
+            self.vertices[x][y].set_walls(code)
+        x = 0
+        y = 0
+        for x in range(1,x_length-1):
+            top_right_cell_walls = self.maze.get_cell(x-1, 0).get_walls()
+            bottom_right_cell_walls = self.maze.get_cell(x, 0).get_walls()
+            code = ""
+            if top_right_cell_walls["west"]:
+                code += "n"
+            else:
+                code += "-"
+            if top_right_cell_walls["south"]:
+                code += "e"
+            else:
+                code += "-"
+            if bottom_right_cell_walls["west"]:
+                code += "s"
+            else:
+                code += "-"
+
+            code += "-"
+
+            self.vertices[x][y].set_walls(code)
+        x = 0
+        y = 0
+
+        # Remove outward facings wicks from outer boundary
 
         for x in range(0, x_length):
             self.vertices[x][0].walls["west"] = False
             self.vertices[x][y_length - 1].walls["east"] = False
-
+        x = 0
+        y = 0
         for y in range(0, y_length):
             self.vertices[0][y].walls["north"] = False
             self.vertices[x_length - 1][y].walls["south"] = False
-
+        x = 0
+        y = 0
         # Top boundary vertices update
         for y in range(0, y_length - 1):
             self.vertices[0][y].walls["east"] = self.maze.get_cell(0, y).get_walls()["north"]
             self.vertices[0][y].walls["south"] = self.maze.get_cell(0, y).get_walls()["west"]
-
+        x = 0
+        y = 0
         # Right boundary vertices update
         for x in range(0, x_length - 1):
             self.vertices[x][y_length - 1].walls["west"] = self.maze.get_cell(x, y_length - 2).get_walls()["north"]
             self.vertices[x][y_length - 1].walls["south"] = self.maze.get_cell(x, y_length - 2).get_walls()["east"]
-        # TODO:  i'm up to here, there's an issue with the right boundary printing all east walls for vertices
-        #   check around here. If you run it and look above in the maze the vertices are printed out.
-        #   Might need to check out the code that converts the vertices code in to a symbol, maybe rewrite that section
-
+        x = 0
+        y = 0
         # Bottom boundary vertices update
         for y in range(y_length - 1, 0, -1):
             self.vertices[x_length - 1][y].walls["north"] = self.maze.get_cell(x_length - 2, y - 1).get_walls()["east"]
             self.vertices[x_length - 1][y].walls["west"] = self.maze.get_cell(x_length - 2, y - 1).get_walls()["south"]
-
+        x = 0
+        y = 0
         # Left boundary vertices update
         for x in range(x_length - 1, 0, -1):
             self.vertices[x][0].walls["north"] = self.maze.get_cell(x - 1, 0).get_walls()["west"]
@@ -311,15 +382,23 @@ class Inverse_Maze:
                     self.vertices[x][y].walls["north"] = False
                     self.vertices[x][y].walls["west"] = False
                 row.append(self.vertices[x][y].type + "(" + str(self.vertices[x][y].x) + ", " + str(
-                    self.vertices[x][y].y) + "/" + self.vertices[x][y].get_vertice_code() + ")")
+                    self.vertices[x][y].y) + "/" + self.vertices[x][y].get_code() + ")")
             print(row)
 
     def print_grid_x_y(self):
         for x in range(0, len(self.grid)):
             row = []
             for y in range(0, len(self.grid[0])):
-                row.append(self.grid[x][y].type + "(" + str(self.grid[x][y].x) + ", " + str(self.grid[x][y].y) + ")")
+                if self.grid[x][y].type == "S":
+                    if self.grid[x][y].active:
+                        code = self.grid[x][y].direction
+                    else:
+                        code = "--"
+                else:
+                    code = self.grid[x][y].get_code()
+                row.append(self.grid[x][y].type + "(" + str(self.grid[x][y].x) + ", " + str(self.grid[x][y].y) +"/" + code+ ")")
             print(row)
+
 
 
 class Maze:
@@ -328,6 +407,8 @@ class Maze:
         self.rows = rows
         self.columns = columns
         self.cells = []
+
+
 
     def get_cell(self, x, y):
         return self.cells[x][y]
@@ -346,6 +427,7 @@ class Maze:
             for y in range(0, self.columns):
                 cell = Cell(x, y)
                 cell.set_walls(maze[x][y])
+
                 column.append(cell)
             self.cells.append(column)
 
@@ -354,7 +436,7 @@ class Maze:
         for x in range(0, self.rows):
             row = ""
             for y in range(0, self.columns):
-                row += str(self.cells[x][y].get_walls())
+                row += "C("+str(x)+", "+str(y)+"/"+str(self.cells[x][y].get_code())+"), "
             print(row)
 
 
@@ -368,22 +450,27 @@ def main():
     custom_maze = [row0, row1, row2, row3, row4]
     maze = Maze(5, 10)
     maze.make_maze(custom_maze)
-    print("printing cell maze")
-    maze.print_cell_maze()
 
-    print("creating inverse maze")
-    inverse_maze = Inverse_Maze(maze, 1)
-    print("printing vertice inverse maze (prior to mapping)")
-    inverse_maze.print_vertice_x_y()
 
-    print("printing cell maze again")
-    inverse_maze.maze.print_cell_maze()
 
-    print("mapping cells to inverse vertex maze")
+    inverse_maze = Inverse_Maze(maze, 3)
+
+
+
+
     inverse_maze.map_cells_to_vertices()
 
-    inverse_maze.print_vertice_x_y()
+
     inverse_maze.create_grid()
+
+
+    print("CELL MAZE")
+    inverse_maze.maze.print_cell_maze()
+    print("VERTICE MAZE")
+    inverse_maze.print_vertice_x_y()
+    print("LAYOUT")
+    inverse_maze.print_grid_x_y()
+    print("END MAZE")
     inverse_maze.print_grid()
 
 
