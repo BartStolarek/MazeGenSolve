@@ -6,6 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="50c29773-720a-4ecb-9081-c7ec4713e0d5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC350a2/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/COSC350a2/src/bstolare/agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC350a2/src/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/COSC350a2/src/bstolare/model-based agents notes" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC350a2/src/bstolare/bstolare.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC350a2/src/bstolare/bstolare2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC350a2/src/bstolare/bstolare3.py" beforeDir="false" afterPath="$PROJECT_DIR$/COSC350a2/src/bstolare/bstolare3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC350a2/src/bstolare/console.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC350a2/src/bstolare/node.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC350a2/src/bstolare/week6/frozen_lake_solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/COSC350a2/src/bstolare/week6/frozen_lake_solution.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,7 +227,6 @@
       <workItem from="1660638669941" duration="13924000" />
       <workItem from="1660719190811" duration="553000" />
       <workItem from="1660730400128" duration="2902000" />
-      <workItem from="1660896937644" duration="1461000" />
     </task>
     <servers />
   </component>

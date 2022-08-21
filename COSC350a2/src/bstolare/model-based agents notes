@@ -1,0 +1,121 @@
+GENERAL
+The system will include:
+environment - the external reality that the AI agent will act against
+sensors - these are how the agent observes and intakes information
+effectors - these are what the agent uses to effect the environment
+percepts - is the information being observed by sensors
+actions - is the information or change that the effectors have performed
+blackbox - the brain of the agent
+
+
+################################################################################################################################################################################################
+################################################################################################################################################################################################
+(simple) REFLEX
+
+Act only on their current percept, ignore the rest in history. Based on the if-then condition rule.
+Works when the environment is fully observable, all environment is captured in if statement/s
+It is permissable to store information on its current state, which can allow disregarding of conditions
+
+                                                        Condition Action Rules \/
+Environment -> Sensors via percepts -> What the world is like now -> What action should i do now -> Actuators via actions -> Environment
+
+################################################################################################################################################################################################
+################################################################################################################################################################################################
+(model based) REFLEX
+
+Can handle a partially observed environment
+Current state is stored, maintaining some kind of structure which describes the part of the world which cannot be seen
+Uses the knowledge about "how the environment evolves"
+                                        \/ state
+                                        \/ how the world evolves
+                                        \/ what my actions do           \/ Condition-action rules
+environment -> sensors via percepts -> what the world is like now -> what action i should do now -> Actuators via actions -> environment
+
+################################################################################################################################################################################################
+################################################################################################################################################################################################
+GOAL-BASED
+
+Expands on model-based agents, by using 'goal' information.
+Goal information describes situations that are desirable.
+This allows the agent to choose among multiple possibilities, selecting the one which reaches the goal state.
+Search and planning are sub-fields of AI devoted to finding action sequences that achieve the agent's goals
+                           --------->   \/ state
+                         /\             \/ how the world evolves <->   \/ how the world evolves
+                         /\             \/ what my actions do    <->   \/ what my actions do                    \/ Goals
+environment -> Sensors via percepts -> What the world is like now -> what it will be like if I do action A -> What action i should do now -> Actuators via actions -> environment
+
+################################################################################################################################################################################################
+################################################################################################################################################################################################
+UTILITY
+
+Goal based agents only distinguish between goal states and non-goal states
+Utility uses a measure of how desirable a particular state is
+Can be measured by mapping a state to a measure of utility (using utility function)
+Term utility can be used to describe how 'happy' a agent is
+                           --------->   \/ state
+                         /\             \/ how the world evolves <->   \/ how the world evolves
+                         /\             \/ what my actions do    <->   \/ what my actions do                    \/ Utility
+environment -> Sensors via percepts -> What the world is like now -> what it will be like if I do action A -> How happy i will be in such a state -> What action i should do now -> Actuators via actions -> environment
+
+################################################################################################################################################################################################
+################################################################################################################################################################################################
+LEARNING AGENT
+
+Learning agent allows for initial operation in a unknown environment, and become more competent than its intial knowledge.
+Important distinction is between the learning element and performance element
+Learning element - responsible for making improvements. Uses feedback from the critic or teacher on how the agent is doing and determines how the performance element should be modified to do better in the future
+Performance element - responsible for selecting external actions
+Problem generator - responsible for suggesting actions that will lead to new and informative experiences
+                                                                           (changes->)
+                                                                           (<-knowledge)
+Environment -> sensors via percepts -> critic via feedback -> learning element  <-> problem generator -> effectors via actions -> environment
+                                                                 \/ (learning goals)              /\
+                                                              problem generator ----------------->
+                                                                                    (experiments)
+
+ ################################################################################################################################################################################################
+ ################################################################################################################################################################################################
+
+ The markov decision process (MDP)
+ The MDP is a tuple {S, A, P, R, y}
+ S - a finite set of states
+ A - finite set of actions
+ P - a transition probability matrix
+ R - a reward function
+ y - a discount factor y is in [0,1]
+
+ The v function
+
+
+ The q function
+
+ Adaptive Dynamic programming (ADP)
+ 1. Initialise model for all possible states
+ 2. Run through each state
+ 2. get C value of that state based on all movements it can make (except for backwards) = a reading (a cumulative reward), where the highest reward is the one we want to progress to
+
+ Monte Carlo Simulations
+ based on cost of each individual value (G value = cost)
+ 1. Initialise a partial model (arbitrarily)
+ 2. For each  episode:
+    a. Generate random state, action pairs
+    b for each state, action:
+        i. calculate reward for current action
+        ii. add to running average
+ 3. Return most optimal episode
+
+ Temporal-difference learning
+ Similar to dynamic - don't need understanding of our model, can work with partial
+ 1. Initilise our partial model (arbitrarily)
+ 2. For each episode (starting state):
+    a. initialise current state.
+    b. For each state, action until terminal:
+        i. take action - observe reward
+        ii. update reward for state
+        iii. set state to new state based on action
+3. Return model of optimal paths
+
+
+
+
+
