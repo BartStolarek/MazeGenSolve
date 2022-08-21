@@ -42,13 +42,13 @@ class Agent:
 
     def get_move_text(self, i):
         if i == 0:
-            return "up"
+            return "north"
         elif i == 1:
-            return "down"
+            return "east"
         elif i == 2:
-            return "left"
+            return "south"
         elif i == 3:
-            return "right"
+            return "west"
 
     def check_if_valid_move(self, cell, direction):
         return not cell.walls[direction]
@@ -122,7 +122,34 @@ class Agent:
                 cell = next_cell
 
 
+    def get_path(self):
 
+        travelled = []
+        travelled.append(self.start)
+        max_attempts = 100
+        cell = self.start
+        for j in range(max_attempts):
+
+            max_val = -10
+            max_state = [0,0]
+            max_move = 0
+            for i in range(4):
+                direction = self.get_move_text(i)
+                if self.check_if_valid_move(cell, direction):
+                    rewards, next_cell = self.take_action(cell, direction)
+                    if self.values[next_cell.x][next_cell.y] > max_val and next_cell not in travelled:
+                        max_val = self.values[next_cell.x][next_cell.y]
+                        max_state = next_cell
+                        max_move = direction
+
+            self.path.append(max_move)
+            travelled.append(max_state)
+            cell = next_cell
+
+            if cell.get_coordinates() == self.end:
+                return
+        print("Max pathing attempts reach - exiting")
+        return
 
 
 
