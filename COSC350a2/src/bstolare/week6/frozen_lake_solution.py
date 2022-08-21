@@ -268,8 +268,8 @@ def main():
             print(str(cell)+" ",end="")
         print()
     
-    values = mcs(goal)
-    #values = tdl(start,goal)
+    #values = mcs(goal)
+    values = tdl(start,goal)
     print("Optimal values:")
     for row in values:
         for cell in row:

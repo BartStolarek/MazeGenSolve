@@ -1,3 +1,6 @@
+from COSC350a2.src.bstolare.agent import Agent
+
+
 def get_unicode_symbol(unicode):
     unicode_symbols = {'nesw': '┼',
                        'nes-': '├',
@@ -24,6 +27,12 @@ class Cell:
         self.walls = {"north": True, "east": True, "south": True, "west": True}
         self.x = x
         self.y = y
+
+    def get_cell_x_y_as_string(self):
+        return "["+str(self.x)+", "+str(self.y)+"]"
+
+    def get_coordinates(self):
+        return [self.x, self.y]
 
     def get_walls(self):
         return self.walls
@@ -242,14 +251,20 @@ class Inverse_Maze:
             for y in range(0, self.columns - 1):
                 # Add cell's two spacers first
                 for i in range(0, self.x_spacer):
+
                     if y == 0:
-                        row.append(Spacer("we", False, x, y))
+                        spacer = Spacer("we", False, x, y)
+                        row.append(spacer)
+
                     else:
                         spacer_active= self.vertices[x][y].get_walls()["west"]
-                        row.append(Spacer("we", spacer_active, x, y))
+                        spacer = Spacer("we", spacer_active, x, y)
+                        row.append(spacer)
+
                 row.append(self.vertices[x][y])
 
             self.grid.append(row)
+
 
     def print_grid(self):
 
@@ -355,6 +370,9 @@ class Inverse_Maze:
         for y in range(0, y_length - 1):
             self.vertices[0][y].walls["east"] = self.maze.get_cell(0, y).get_walls()["north"]
             self.vertices[0][y].walls["south"] = self.maze.get_cell(0, y).get_walls()["west"]
+            vertice_check = self.vertices[0][y].walls
+
+
         x = 0
         y = 0
         # Right boundary vertices update
@@ -378,9 +396,6 @@ class Inverse_Maze:
         for x in range(0, len(self.vertices)):
             row = []
             for y in range(0, len(self.vertices[0])):
-                if x == 0 and y == 3:
-                    self.vertices[x][y].walls["north"] = False
-                    self.vertices[x][y].walls["west"] = False
                 row.append(self.vertices[x][y].type + "(" + str(self.vertices[x][y].x) + ", " + str(
                     self.vertices[x][y].y) + "/" + self.vertices[x][y].get_code() + ")")
             print(row)
@@ -440,20 +455,32 @@ class Maze:
             print(row)
 
 
+
 def main():
-    row0 = ["---w", "n-s-", "ne--", "n--w", "n-s-", "ne--", "n--w", "n-s-", "n-s-", "ne--"]
+    row0 = ["n--w", "n-s-", "ne--", "n--w", "n-s-", "ne--", "n--w", "n-s-", "n-s-", "ne--"]
     row1 = ["-e-w", "n-sw", "-es-", "--sw", "ne--", "--sw", "-e--", "ne-w", "n--w", "-es-"]
     row2 = ["--sw", "ne--", "n--w", "nes-", "---w", "ne--", "--sw", "-es-", "-e-w", "ne-w"]
     row3 = ["n--w", "--s-", "-es-", "n--w", "-e--", "--sw", "nes-", "n--w", "--s-", "-es-"]
-    row4 = ["--sw", "n-s-", "n-s-", "-es-", "--sw", "nes-", "n-sw", "--s-", "n-s-", "ne--"]
+    row4 = ["--sw", "n-s-", "n-s-", "-es-", "--sw", "nes-", "n-sw", "--s-", "n-s-", "nes-"]
+
+    size = [5,10]
+
+    start = [0, 0]
+    end = [size[0]-1, size[1]-1]
+
+    # Hyper parameters
+    episodes = 500
+    gamma = 0.5 # interest in neighbours (discount value)
+    alpha = 0.5 # rate of learning
+
 
     custom_maze = [row0, row1, row2, row3, row4]
-    maze = Maze(5, 10)
+    maze = Maze(size[0], size[1])
     maze.make_maze(custom_maze)
 
 
 
-    inverse_maze = Inverse_Maze(maze, 3)
+    inverse_maze = Inverse_Maze(maze, 1)
 
 
 
@@ -472,6 +499,13 @@ def main():
     inverse_maze.print_grid_x_y()
     print("END MAZE")
     inverse_maze.print_grid()
+
+    agent = Agent(maze,start, end, episodes, gamma, alpha )
+
+    agent.print_rewards_map()
+    agent.tdl()
+    agent.print_values_map()
+
 
 
 if __name__ == '__main__':
