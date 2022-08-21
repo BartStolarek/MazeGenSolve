@@ -470,7 +470,7 @@ def main():
 
     # Hyper parameters
     episodes = 20
-    gamma = 0.5 # interest in neighbours (discount value)
+    gamma = 0.25 # interest in neighbours (discount value)
     alpha = 0.5 # rate of learning
 
 
@@ -506,7 +506,8 @@ def main():
     agent.tdl()
     agent.print_values_map()
 
-    agent.get_path()
+    agent.get_path(backtracking=False,max_attempts=100)
+    print("printing path")
     print(agent.path)
 
 

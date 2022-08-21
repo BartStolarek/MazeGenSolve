@@ -125,7 +125,7 @@ def tdl(state,goal):
     # note: adjusting gamma causes infinite loop.
     
     episodes = 500
-    gamma = 0.1
+    gamma = 0.5
     alpha = 0.5
 
     values = [ [0] * grid_w for _ in range(grid_h)]
@@ -142,7 +142,7 @@ def tdl(state,goal):
             # V(S) = V(S) + aplha * (reward' + gamma * V(S') - V(S))
             current = values[state[0]][state[1]]
             after = values[new_state[0]][new_state[1]]
-            values[state[0]][state[1]] += alpha * (rew.gitard + gamma * after - current)
+            values[state[0]][state[1]] += alpha * (reward + gamma * after - current)
             
             state = list(new_state)
                 

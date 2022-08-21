@@ -1,6 +1,5 @@
 import random
 
-
 class Agent:
     def __init__(self, maze, start, end, episodes, gamma, alpha):
         # Hyper parameters
@@ -98,16 +97,10 @@ class Agent:
     def tdl(self):
 
         for i in range(0, self.episodes):
-            print("episode: " + str(i))
             cell = self.start
             while True:
-                print("state: " + str(cell.x) + ", " + str(cell.y))
                 action = self.get_action(cell)
-                print("got action: " + action)
                 reward, next_cell = self.take_action(cell, action)
-                print("got reward: " + str(reward) + " next cell: [" + str(next_cell.x) + ", " + str(next_cell.y)+"]")
-
-
 
                 if next_cell.get_coordinates() == self.end:
                     break
@@ -116,40 +109,118 @@ class Agent:
                 current_value = self.values[cell.x][cell.y]
                 after = self.values[cell.x][cell.y]
 
-
-                self.values[cell.x][cell.y] = self.values[cell.x][cell.y] + self.alpha * (reward + self.gamma * after - current_value)
+                self.values[cell.x][cell.y] = round(self.values[cell.x][cell.y] + self.alpha * (reward + self.gamma * after - current_value),3)
 
                 cell = next_cell
 
 
-    def get_path(self):
-
+    def get_path(self,backtracking=True, max_attempts=0):
         travelled = []
         travelled.append(self.start)
-        max_attempts = 100
         cell = self.start
-        for j in range(max_attempts):
+        if backtracking:
 
-            max_val = -10
-            max_state = [0,0]
-            max_move = 0
-            for i in range(4):
-                direction = self.get_move_text(i)
-                if self.check_if_valid_move(cell, direction):
-                    rewards, next_cell = self.take_action(cell, direction)
-                    if self.values[next_cell.x][next_cell.y] > max_val and next_cell not in travelled:
-                        max_val = self.values[next_cell.x][next_cell.y]
-                        max_state = next_cell
-                        max_move = direction
+            ignore = ""
+            back_tracks = 0
+            for cells in range(0, len(self.maze.cells)*len(self.maze.cells[0])):
 
-            self.path.append(max_move)
-            travelled.append(max_state)
-            cell = next_cell
+                best_value = -1000000
+                best_cell = ""
+                best_direction = ""
+                valid_moves = 0
+                next_cell = cell
 
-            if cell.get_coordinates() == self.end:
-                return
-        print("Max pathing attempts reach - exiting")
-        return
+                # For current cell, check all four moves
+                for i in range(0,4):
+
+                    # Get the direction
+                    direction = self.get_move_text(i)
+
+                    # If valid move then get next cell
+                    if self.check_if_valid_move(cell, direction) and direction != ignore:
+
+                        rewards, next_cell = self.take_action(cell, direction)
+                        # If the next cells value is greater than the current best, and next cell has not been travelled
+                        # create new best values
+                        if self.values[next_cell.x][next_cell.y] > best_value and next_cell not in travelled:
+
+                            valid_moves = valid_moves + 1
+                            best_value = self.values[next_cell.x][next_cell.y]
+                            best_cell = next_cell
+                            best_direction = direction
+
+                    if next_cell.get_coordinates() == self.end:
+                        return back_tracks
+
+                if valid_moves == 0:
+                    travelled.pop()
+                    ignore = self.path.pop()
+                    cell = travelled[-1]
+                    back_tracks = back_tracks + 1
+
+                else:
+                    self.path.append(best_direction)
+                    travelled.append(best_cell)
+                    cell = best_cell
+                    ignore = ""
+
+        else:
+            dead_ends = []
+            attempts = 0
+            while attempts < max_attempts:
+
+                best_value = -1000000
+                best_cell = ""
+                best_direction = ""
+                valid_moves = 0
+                next_cell = cell
+
+                print(str(attempts) + " " + str(self.path))
+                # For current cell, check all four moves
+                for i in range(0,4):
+
+                    # Get the direction
+                    direction = self.get_move_text(i)
+
+                    # If valid move then get next cell
+                    if self.check_if_valid_move(cell, direction):
+
+                        rewards, next_cell = self.take_action(cell, direction)
+                        # If the next cells value is greater than the current best, and next cell has not been travelled
+                        # create new best values
+                        if self.values[next_cell.x][next_cell.y] > best_value and next_cell not in travelled and next_cell not in dead_ends:
+                            valid_moves = valid_moves + 1
+                            best_value = self.values[next_cell.x][next_cell.y]
+                            best_cell = next_cell
+                            best_direction = direction
+
+                    if next_cell.get_coordinates() == self.end:
+                        return attempts
+
+                if valid_moves == 0:
+                    self.path = []
+                    travelled = []
+                    dead_ends.append(cell)
+                    cell = self.start
+                    attempts = attempts + 1
+                else:
+                    self.path.append(best_direction)
+                    travelled.append(best_cell)
+                    cell = best_cell
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -139,4 +139,4 @@ dmypy.json
 cython_debug/
 
 # .idea workspace
-.idea/workspace.xml
+.idea/
