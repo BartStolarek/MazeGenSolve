@@ -469,7 +469,7 @@ def main():
     end = [size[0]-1, size[1]-1]
 
     # Hyper parameters
-    episodes = 500
+    episodes = 20
     gamma = 0.5 # interest in neighbours (discount value)
     alpha = 0.5 # rate of learning
 
@@ -505,6 +505,9 @@ def main():
     agent.print_rewards_map()
     agent.tdl()
     agent.print_values_map()
+
+    agent.get_path()
+    print(agent.path)
 
 
 

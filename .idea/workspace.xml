@@ -4,16 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50c29773-720a-4ecb-9081-c7ec4713e0d5" name="Changes" comment="">
+    <list default="true" id="50c29773-720a-4ecb-9081-c7ec4713e0d5" name="Changes" comment="surface pro updates">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/COSC350a2/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/COSC350a2/src/bstolare/agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/COSC350a2/src/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/COSC350a2/src/bstolare/model-based agents notes" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/COSC350a2/src/bstolare/bstolare.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/COSC350a2/src/bstolare/bstolare2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC350a2/src/bstolare/agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/COSC350a2/src/bstolare/agent.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/COSC350a2/src/bstolare/bstolare3.py" beforeDir="false" afterPath="$PROJECT_DIR$/COSC350a2/src/bstolare/bstolare3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/COSC350a2/src/bstolare/console.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/COSC350a2/src/bstolare/node.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/COSC350a2/src/bstolare/week6/frozen_lake_solution.py" beforeDir="false" afterPath="$PROJECT_DIR$/COSC350a2/src/bstolare/week6/frozen_lake_solution.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +50,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
@@ -227,7 +222,16 @@
       <workItem from="1660638669941" duration="13924000" />
       <workItem from="1660719190811" duration="553000" />
       <workItem from="1660730400128" duration="2902000" />
+      <workItem from="1661065731405" duration="1145000" />
     </task>
+    <task id="LOCAL-00001" summary="surface pro updates">
+      <created>1661061906373</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1661061906373</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -244,7 +248,11 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="surface pro updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="surface pro updates" />
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/MazeGenSolve$bstolare3.coverage" NAME="bstolare3 Coverage Results" MODIFIED="1660733228634" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/COSC350a2/src/bstolare" />
+    <SUITE FILE_PATH="coverage/MazeGenSolve$bstolare3.coverage" NAME="bstolare3 Coverage Results" MODIFIED="1661067242738" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/COSC350a2/src/bstolare" />
   </component>
 </project>
