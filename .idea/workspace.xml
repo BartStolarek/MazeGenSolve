@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="50c29773-720a-4ecb-9081-c7ec4713e0d5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/COSC350a2/src/bstolare/bstolare3.py" beforeDir="false" afterPath="$PROJECT_DIR$/COSC350a2/src/bstolare/bstolare3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/COSC350a2v2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/COSC350a2v2.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,6 +219,7 @@
       <workItem from="1660638669941" duration="13924000" />
       <workItem from="1660719190811" duration="553000" />
       <workItem from="1660730400128" duration="2902000" />
+      <workItem from="1660896937644" duration="1461000" />
     </task>
     <servers />
   </component>
