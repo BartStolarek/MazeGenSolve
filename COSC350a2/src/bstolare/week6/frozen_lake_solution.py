@@ -142,7 +142,7 @@ def tdl(state,goal):
             # V(S) = V(S) + aplha * (reward' + gamma * V(S') - V(S))
             current = values[state[0]][state[1]]
             after = values[new_state[0]][new_state[1]]
-            values[state[0]][state[1]] += alpha * (reward + gamma * after - current)
+            values[state[0]][state[1]] += alpha * (rew.gitard + gamma * after - current)
             
             state = list(new_state)
                 
